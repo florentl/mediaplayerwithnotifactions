@@ -129,6 +129,18 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     }
   }
 
+  @Override
+  protected void onPause() {
+    super.onPause();
+    Log.d("PLAYER PAUSED", "PAUSED !!!!!!!!!!!!!");
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    Log.d("PLAYER RESUMED", "RESUMED !!!!!!!!!!!!!");
+  }
+
   /**
    * Application context accessor
    * https://possiblemobile.com/2013/06/context/
