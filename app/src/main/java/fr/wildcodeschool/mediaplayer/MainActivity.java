@@ -1,7 +1,10 @@
 package fr.wildcodeschool.mediaplayer;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
@@ -26,10 +29,15 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
   private final Handler mSeekBarHandler = new Handler();
   private Runnable mSeekBarThread;
 
+  private PendingIntent pendingPlayIntent;
+  private PendingIntent pendingPauseIntent;
+
   private NotificationManagerCompat notificationManager;
 
   // Application Context is static in order to access it everywhere.
   private static Context appContext;
+
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +76,24 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         mSeekBarHandler.postDelayed(this, SEEKBAR_DELAY);
       }
     };
+    PlayerNotifReceiver playerNotifReceiver = new PlayerNotifReceiver( mPlayer );
+    IntentFilter intentFilter = new IntentFilter();
+    intentFilter.addAction(getPackageName() + "android.net.conn.CONNECTIVITY_CHANGE");
+    registerReceiver(playerNotifReceiver, intentFilter);
+
     notificationManager = NotificationManagerCompat.from(this);
+
+    Intent pauseIntent = new Intent(this, PlayerNotifReceiver.class);
+    pauseIntent.setAction( "pause" );
+    this.pendingPauseIntent = PendingIntent.getActivity(this, 1, pauseIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT);
+
+    Intent playIntent = new Intent(this, PlayerNotifReceiver.class);
+    pauseIntent.setAction( "play" );
+    this.pendingPlayIntent = PendingIntent.getActivity(this, 1, playIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT);
+
+
   }
 
   /**
@@ -142,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
   protected void onPause() {
     super.onPause();
     Notifier n = new Notifier( getApplicationContext(),
-            "mychannel","song title", "artist" );
+            "mychannel","song title", "artist", this.pendingPlayIntent, this.pendingPauseIntent );
     final NotificationCompat.Builder mBuilder = n.setup();
 
     notificationManager.notify(NOTIF_PLAYER_ID, mBuilder.build());
