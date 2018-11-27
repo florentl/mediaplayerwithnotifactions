@@ -1,8 +1,11 @@
 package fr.wildcodeschool.mediaplayer;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +13,9 @@ import android.view.View;
 import android.widget.SeekBar;
 
 public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+
+  private static final int NOTIF_PLAYER_ID=1;
+
   // Audio player
   private WildPlayer mPlayer = null;
   // Progress bar
@@ -19,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
   // Thread used to update the seekbar position
   private final Handler mSeekBarHandler = new Handler();
   private Runnable mSeekBarThread;
+
+  private NotificationManagerCompat notificationManager;
 
   // Application Context is static in order to access it everywhere.
   private static Context appContext;
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         mSeekBarHandler.postDelayed(this, SEEKBAR_DELAY);
       }
     };
+    notificationManager = NotificationManagerCompat.from(this);
   }
 
   /**
@@ -132,13 +141,18 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
   @Override
   protected void onPause() {
     super.onPause();
-    Log.d("PLAYER PAUSED", "PAUSED !!!!!!!!!!!!!");
+    Notifier n = new Notifier( getApplicationContext(),
+            "mychannel","song title", "artist" );
+    final NotificationCompat.Builder mBuilder = n.setup();
+
+    notificationManager.notify(NOTIF_PLAYER_ID, mBuilder.build());
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    Log.d("PLAYER RESUMED", "RESUMED !!!!!!!!!!!!!");
+    notificationManager.cancel( NOTIF_PLAYER_ID );
+
   }
 
   /**

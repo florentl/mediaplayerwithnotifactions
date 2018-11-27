@@ -1,5 +1,6 @@
 package fr.wildcodeschool.mediaplayer;
 
+import android.app.Notification;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
@@ -15,9 +16,9 @@ public class Notifier extends Builder {
         this.artist = artist;
     }
 
-    public void setup()
+    public Builder setup()
     {
-        this.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+        return this.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.drawable.ic_music)
             // Add media control buttons that invoke intents in your media service
             .addAction(R.drawable.ic_play, "Play", null) // #0
@@ -25,7 +26,7 @@ public class Notifier extends Builder {
             .addAction(R.drawable.ic_stop, "Stop", null)     // #2
             // Apply the media style template
             .setContentTitle(this.title)
-            .setContentText(this.artist)
-            .build();
+            .setContentText(this.artist);
+
     }
 }
