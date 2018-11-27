@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     Intent playIntent = new Intent(this, PlayerNotifReceiver.class);
     pauseIntent.setAction( "play" );
-    this.pendingPlayIntent = PendingIntent.getActivity(this, 1, playIntent,
+    this.pendingPlayIntent = PendingIntent.getActivity(this, 2, playIntent,
             PendingIntent.FLAG_UPDATE_CURRENT);
 
 

@@ -8,7 +8,12 @@ public class PlayerNotifReceiver extends BroadcastReceiver {
 
     private WildPlayer myPlayer;
 
+    public PlayerNotifReceiver() {
+
+    }
+
     public PlayerNotifReceiver(WildPlayer myPlayer) {
+        super();
         this.myPlayer = myPlayer;
     }
 
