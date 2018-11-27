@@ -27,14 +27,14 @@ public class Notifier extends Builder {
     {
 
         return this.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setSmallIcon(R.drawable.ic_music)
-            // Add media control buttons that invoke intents in your media service
-            .addAction(R.drawable.ic_play, "Play", playIntent) // #0
-            .addAction(R.drawable.ic_pause, "Pause", pauseIntent)  // #1
-            //.addAction(R.drawable.ic_stop, "Stop", null)     // #2
-            // Apply the media style template
-            .setContentTitle(this.title)
-            .setContentText(this.artist);
+                .setSmallIcon(R.drawable.ic_music)
+                // Add media control buttons that invoke intents in your media service
+                .addAction(R.drawable.ic_play, "Play", playIntent) // #0
+                .addAction(R.drawable.ic_pause, "Pause", pauseIntent)  // #1
+                //.addAction(R.drawable.ic_stop, "Stop", null)     // #2
+                // Apply the media style template
+                .setContentTitle(this.title)
+                .setContentText(this.artist);
 
     }
 }

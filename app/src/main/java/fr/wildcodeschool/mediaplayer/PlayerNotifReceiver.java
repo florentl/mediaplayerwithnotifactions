@@ -3,26 +3,26 @@ package fr.wildcodeschool.mediaplayer;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 public class PlayerNotifReceiver extends BroadcastReceiver {
 
-    private WildPlayer myPlayer;
-
-    public PlayerNotifReceiver() {
-
-    }
-
-    public PlayerNotifReceiver(WildPlayer myPlayer) {
-        super();
-        this.myPlayer = myPlayer;
-    }
+    public static final String PLAY = "play";
+    public static final String PAUSE = "pause";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if("pause".equals(intent.getAction())) {
-            myPlayer.pause();
-        } else if("play".equals( intent.getAction() )) {
-            myPlayer.play();
+
+        String intentAction = intent.getAction();
+        switch (intentAction) {
+            case PLAY:
+                MainActivity.mPlayer.play();
+                break;
+            case PAUSE:
+                MainActivity.mPlayer.pause();
+                break;
         }
     }
+
+
 }
